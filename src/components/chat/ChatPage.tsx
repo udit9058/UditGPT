@@ -3,6 +3,8 @@ import ChatWindow from './ChatWindow';
 import ChatInput from './ChatInput';
 import ModelClient, { isUnexpected } from '@azure-rest/ai-inference';
 import { AzureKeyCredential } from '@azure/core-auth';
+import ChatHeader from './ChatHeader';
+import { useTheme } from "@/hooks/useTheme";
 
 // Match MessageProps from Message.tsx
 interface MessageProps {
@@ -15,11 +17,12 @@ interface MessageProps {
 const ChatPage = () => {
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   const generateUniqueId = () => Date.now().toString();
 
   const handleSendMessage = async (message: string) => {
-    console.log('handleSendMessage called with message:', message);
+    // console.log('handleSendMessage called with message:', message);
     const userMessage: MessageProps = {
       id: generateUniqueId(),
       content: message,
@@ -27,22 +30,22 @@ const ChatPage = () => {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMessage]);
-    console.log('User message added to state:', userMessage);
+    // console.log('User message added to state:', userMessage);
     setIsLoading(true);
 
     try {
-      const token = ""; // Use environment variable for token
+      const token = "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"; // Use environment variable for token
       const endpoint = 'https://models.github.ai/inference';
       const model = 'openai/gpt-4.1';
 
-      console.log('Initializing client with token and endpoint');
+      // console.log('Initializing client with token and endpoint');
       if (!token) {
         throw new Error('GitHub token is not loaded from environment variables. Check your .env file.');
       }
 
       const client = ModelClient(endpoint, new AzureKeyCredential(token));
 
-      console.log('Attempting API call with message:', message);
+      // console.log('Attempting API call with message:', message);
       const response = await client.path('/chat/completions').post({
         body: {
           messages: [
@@ -59,7 +62,7 @@ const ChatPage = () => {
         throw response.body.error || new Error('Unexpected response from API');
       }
 
-      console.log('API Response received:', response.body);
+      // console.log('API Response received:', response.body);
       const botMessage: MessageProps = {
         id: generateUniqueId(),
         content: response.body.choices[0].message.content,
@@ -67,7 +70,7 @@ const ChatPage = () => {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMessage]);
-      console.log('Bot message added to state:', botMessage);
+      // console.log('Bot message added to state:', botMessage);
     } catch (error) {
       console.error('API Error caught:', {
         message: error.message,
@@ -82,15 +85,16 @@ const ChatPage = () => {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
-      console.log('Error message added to state:', errorMessage);
+      // console.log('Error message added to state:', errorMessage);
     } finally {
       setIsLoading(false);
-      console.log('isLoading set to false');
+      // console.log('isLoading set to false');
     }
   };
 
   return (
     <div className="flex flex-col h-screen">
+      <ChatHeader isDark={isDark} toggleTheme={toggleTheme} />
       <ChatWindow messages={messages} />
       <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
     </div>

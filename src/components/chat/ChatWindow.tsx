@@ -9,7 +9,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ 
+    messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "end"
     });
@@ -25,15 +25,11 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-[60vh] text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
-              <svg
-                viewBox="0 0 24 24"
-                className="w-8 h-8 text-primary"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+              <img
+                src="/src/assets/udit.png"
+                alt="Udit"
+                className="w-13 h-13 object-contain"
+              />
             </div>
             <h2 className="text-2xl font-semibold text-foreground mb-2">
               Welcome to UditGPT

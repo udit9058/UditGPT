@@ -12,16 +12,14 @@ const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = () => {
-    console.log("handleSubmit called with message:", message); // Debug log
     if (message.trim() && !disabled) {
-      console.log("Calling onSendMessage with:", message.trim()); // Debug log
       onSendMessage(message.trim());
       setMessage("");
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    console.log("handleKeyDown called, key:", e.key); // Debug log
+
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();

@@ -1,4 +1,4 @@
-import { User, Bot } from "lucide-react";
+import { User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface MessageProps {
@@ -26,7 +26,11 @@ const Message = ({ content, isBot, timestamp }: MessageProps) => {
             : "bg-user-message"
         )}>
           {isBot ? (
-            <Bot className="h-5 w-5 text-bot-message-foreground" />
+            <img
+              src="/src/assets/udit.png"
+              alt="Udit"
+              className="h-5 w-5 object-contain"
+            />
           ) : (
             <User className="h-5 w-5 text-user-message-foreground" />
           )}
